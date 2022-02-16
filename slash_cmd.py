@@ -26,24 +26,7 @@ def get_token():
 
 
 def add_cmd():
-    json = {
-        "name": "spotify",
-        "description": "Search for songs on spotify.",
-        "options": [
-            {
-                "name": "song",
-                "description": "The name of the song.",
-                "type": 3,
-                "required": True,
-            },
-            {
-                "name": "artist",
-                "description": "The artist of the song.",
-                "type": 3,
-                "required": False,
-            },
-        ],
-    }
+    json = {"name": "Search on Spotify", "type": 3}
 
     headers = {"Authorization": f"Bearer {get_token()}"}
 
@@ -53,3 +36,5 @@ def add_cmd():
 
 
 add_cmd()
+
+# {'id': '943183184235987045', 'application_id': '863282917991120916', 'version': '943183184235987046', 'default_permission': True, 'default_member_permissions': None, 'type': 3, 'name': 'Search on Spotify', 'name_localizations': None, 'description': '', 'description_localizations': None, 'dm_permission': None}

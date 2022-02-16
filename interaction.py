@@ -26,11 +26,12 @@ def verify_signature(request):
 
 
 @app.route("/", methods=["POST"])
-def ping():
+def index():
+    # print(request.json)
     verify_signature(request)
     if request.json["type"] == 1:
         return jsonify({"type": 1})
-    else:
+    elif request.json["data"]["name"] == "spotify":
         song = request.json["data"]["options"][0]["value"]
         search_str = f"{song}"
         if len(request.json["data"]["options"]) > 1:
@@ -50,7 +51,25 @@ def ping():
                 },
             }
         )
+    elif request.json["data"]["name"] == "Search on Spotify":
+        msgs = request.json["data"]["resolved"]["messages"]
+        song = list(msgs.values())[0]["content"]
+        search_str = f"{song}"
+        _song, _artist, link = search_song(search_str)
+        if link is not None:
+            msg = f"{_song} {link}"
+        else:
+            msg = "Song not found"
+        return jsonify(
+            {
+                "type": 4,
+                "data": {
+                    "tts": False,
+                    "content": msg,
+                },
+            }
+        )
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=False)
+    app.run(debug=True)
